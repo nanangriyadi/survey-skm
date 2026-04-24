@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Laporan & Publikasi — SKM SLB Negeri Badegan</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap"
+      rel="stylesheet" />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: "Plus Jakarta Sans", sans-serif;
+        background: #f5f7fa;
+        color: #1a202c;
+        transition: background 0.3s, color 0.3s;
+      }
+
+      /* Tema Gelap */
+      [data-theme="dark"] body {
+        background: #0f172a;
+        color: #f1f5f9;
+      }
+      [data-theme="dark"] .sidebar {
+        background: #1e293b !important;
+        border-color: #2d3f55 !important;
+      }
+      [data-theme="dark"] .topbar {
+        background: rgba(15, 23, 42, 0.98) !important;
+        border-color: #2d3f55 !important;
+      }
+      [data-theme="dark"] .card {
+        background: #1e293b !important;
+        border-color: #2d3f55 !important;
+      }
+      [data-theme="dark"] .bg-slate-50 {
+        background: #0f172a !important;
+      }
+      [data-theme="dark"] .text-slate-800 {
+        color: #f1f5f9 !important;
+      }
+      [data-theme="dark"] .text-slate-700 {
+        color: #cbd5e1 !important;
+      }
+      [data-theme="dark"] .text-slate-500 {
+        color: #94a3b8 !important;
+      }
+      [data-theme="dark"] th,
+      [data-theme="dark"] td {
+        border-color: #2d3f55 !important;
+      }
+      [data-theme="dark"] thead tr {
+        background: #263347 !important;
+      }
+
+      /* Tata Letak Dasar */
+      .sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 260px;
+        background: #fff;
+        border-right: 1px solid #e2eaf4;
+        display: flex;
+        flex-direction: column;
+        z-index: 50;
+      }
+      .topbar {
+        position: fixed;
+        top: 0;
+        left: 260px;
+        right: 0;
+        height: 70px;
+        background: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(8px);
+        border-bottom: 1px solid #e2eaf4;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 24px;
+        z-index: 40;
+      }
+      .main-content {
+        margin-left: 260px;
+        margin-top: 70px;
+        padding: 28px;
+        min-height: calc(100vh - 70px);
+      }
+      .card {
+        background: #fff;
+        border: 1px solid #e2eaf4;
+        border-radius: 16px;
+        padding: 24px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+      }
+
+      .nav-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 11px 16px;
+        border-radius: 10px;
+        color: #64748b;
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 2px;
+        text-decoration: none;
+        transition: all 0.2s ease;
+      }
+      .nav-item:hover {
+        background: #eef4fb;
+        color: #1b4f72;
+      }
+      .nav-item.active {
+        background: #eef4fb;
+        color: #1b4f72;
+      }
+
+      .font-mono {
+        font-family: "JetBrains Mono", monospace;
+      }
+      .font-display {
+        font-family: "Playfair Display", serif;
+      }
+
+      /* CSS Khusus untuk Mode Cetak (Print) */
+      .print-header {
+        display: none;
+      }
+      @media print {
+        body {
+          background: white;
+          color: black;
+        }
+        .sidebar,
+        .topbar,
+        .no-print {
+          display: none !important;
+        }
+        .main-content {
+          margin: 0;
+          padding: 0;
+        }
+        .card {
+          border: none !important;
+          box-shadow: none !important;
+          padding: 0 !important;
+          margin-bottom: 20px;
+        }
+        .print-header {
+          display: block;
+          text-align: center;
+          margin-bottom: 30px;
+          border-bottom: 3px solid #000;
+          padding-bottom: 15px;
+        }
+        .bg-slate-50 {
+          background: white !important;
+          border: 1px solid #ccc;
+        }
+        table {
+          width: 100%;
+          border-collapse: collapse;
+        }
+        th,
+        td {
+          border: 1px solid #000 !important;
+          padding: 8px;
+          text-align: left;
+        }
+        thead tr {
+          background-color: #f0f0f0 !important;
+          -webkit-print-color-adjust: exact;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <aside class="sidebar">
+      <div class="p-5 border-b border-slate-100">
+        <div class="flex items-center gap-3">
+          <div
+            class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
+            style="background: linear-gradient(135deg, #1b4f72, #154360)">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="white"
+              stroke-width="2">
+              <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+              <path d="M6 12v5c3 3 9 3 12 0v-5" />
+            </svg>
+          </div>
+          <div>
+            <div class="font-display text-sm font-bold text-slate-800">
+              SLB Negeri Badegan
+            </div>
+            <div class="text-xs text-slate-400 font-medium">
+              Sistem SKM Admin
+            </div>
+          </div>
+        </div>
+      </div>
+      <nav class="px-3 py-4 flex-1">
+        <div
+          class="text-xs font-bold text-slate-400 uppercase tracking-widest px-3 mb-3">
+          Menu Utama
+        </div>
+        <a href="admin-dashboard.html" class="nav-item">Dashboard</a>
+        <a href="admin-results.html" class="nav-item">Hasil & Analisis</a>
+        <a href="admin-reports.html" class="nav-item active"
+          >Laporan & Publikasi</a
+        >
+      </nav>
+      <div class="p-4 border-t border-slate-100">
+        <button
+          onclick="logout()"
+          class="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-red-500 hover:bg-red-50 font-semibold text-sm transition-colors">
+          Keluar
+        </button>
+      </div>
+    </aside>
+
+    <header class="topbar">
+      <div>
+        <div class="font-display font-bold text-slate-800 text-lg">
+          Laporan & Publikasi
+        </div>
+        <div class="text-slate-400 text-xs">Cetak laporan resmi SKM</div>
+      </div>
+      <div class="flex gap-3 items-center">
+        <button
+          onclick="window.print()"
+          class="px-4 py-2 text-white text-sm font-bold rounded-xl flex items-center gap-2 shadow-sm transition-transform hover:-translate-y-0.5"
+          style="background: linear-gradient(135deg, #1b4f72, #2471a3)">
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5">
+            <polyline points="6 9 6 2 18 2 18 9"></polyline>
+            <path
+              d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+            <rect x="6" y="14" width="12" height="8"></rect>
+          </svg>
+          Cetak / Simpan PDF
+        </button>
+        <button
+          onclick="toggleTheme()"
+          class="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center text-slate-600 hover:bg-slate-200 transition-colors">
+          <svg
+            id="sunBtn"
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2">
+            <circle cx="12" cy="12" r="5" />
+            <path
+              d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+          </svg>
+          <svg
+            id="moonBtn"
+            class="hidden"
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <main class="main-content">
+      <div class="print-header">
+        <h1 class="font-display text-2xl font-bold uppercase mb-1">
+          Laporan Hasil Survei Kepuasan Masyarakat
+        </h1>
+        <h2 class="text-xl font-bold uppercase mb-2">
+          SLB Negeri Badegan Ponorogo
+        </h2>
+        <p class="text-sm text-gray-600">
+          Dicetak pada: <span id="printDate"></span>
+        </p>
+      </div>
+
+      <div class="grid lg:grid-cols-3 gap-6">
+        <div class="lg:col-span-2 space-y-6">
+          <div class="card">
+            <h3
+              class="font-bold text-slate-800 text-lg border-b border-slate-100 pb-3 mb-4">
+              Ringkasan Eksekutif SKM
+            </h3>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+              <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                <div class="text-xs text-slate-500 font-bold uppercase mb-1">
+                  Responden
+                </div>
+                <div
+                  class="font-mono text-3xl font-bold text-navy-600"
+                  style="color: #1b4f72"
+                  id="repTotal">
+                  0
+                </div>
+              </div>
+              <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                <div class="text-xs text-slate-500 font-bold uppercase mb-1">
+                  Nilai IKM
+                </div>
+                <div
+                  class="font-mono text-3xl font-bold text-green-600"
+                  id="repIkm">
+                  0.00
+                </div>
+              </div>
+              <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                <div class="text-xs text-slate-500 font-bold uppercase mb-1">
+                  Mutu
+                </div>
+                <div
+                  class="font-display text-3xl font-bold text-amber-500"
+                  id="repMutu">
+                  -
+                </div>
+              </div>
+              <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                <div class="text-xs text-slate-500 font-bold uppercase mb-1">
+                  Kinerja
+                </div>
+                <div
+                  class="font-bold text-slate-700 text-base mt-2 leading-tight"
+                  id="repKinerja">
+                  -
+                </div>
+              </div>
+            </div>
+
+            <h4 class="font-bold text-slate-800 mb-3 text-sm">
+              Nilai Rata-Rata Per Unsur (NRR)
+            </h4>
+            <div class="overflow-x-auto rounded-lg border border-slate-200">
+              <table class="w-full text-left text-sm">
+                <thead class="bg-slate-50 border-b border-slate-200">
+                  <tr>
+                    <th class="p-3 text-slate-600 font-bold w-12 text-center">
+                      No
+                    </th>
+                    <th class="p-3 text-slate-600 font-bold">
+                      Unsur Pelayanan
+                    </th>
+                    <th class="p-3 text-slate-600 font-bold text-center w-24">
+                      NRR
+                    </th>
+                    <th class="p-3 text-slate-600 font-bold text-center w-32">
+                      Kategori Mutu
+                    </th>
+                  </tr>
+                </thead>
+                <tbody id="repUnsurTable"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="card" style="page-break-before: auto">
+            <h3
+              class="font-bold text-slate-800 text-lg border-b border-slate-100 pb-3 mb-4">
+              Masukan & Saran Responden
+            </h3>
+            <div
+              class="space-y-4 max-h-[500px] overflow-y-auto pr-2"
+              id="repSaranList"></div>
+            <div
+              id="noSaranMsg"
+              class="text-center text-slate-500 text-sm hidden py-6">
+              Belum ada saran dari responden saat ini.
+            </div>
+          </div>
+        </div>
+
+        <div class="space-y-6 no-print">
+          <div class="card bg-slate-50 border-slate-200">
+            <h3 class="font-bold text-slate-800 mb-2 flex items-center gap-2">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="16" x2="12" y2="12" />
+                <line x1="12" y1="8" x2="12.01" y2="8" />
+              </svg>
+              Petunjuk Cetak
+            </h3>
+            <p class="text-sm text-slate-600 mb-4 leading-relaxed">
+              Gunakan tombol <b>Cetak / Simpan PDF</b> di atas. Pastikan pada
+              pengaturan cetak browser Anda opsi
+              <i>"Background graphics"</i> diaktifkan agar tabel memiliki warna
+              latar yang rapi.
+            </p>
+          </div>
+
+          <div class="card border-red-200 bg-red-50/50">
+            <h3 class="font-bold text-red-700 mb-2 flex items-center gap-2">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2">
+                <path
+                  d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+                <line x1="12" y1="9" x2="12" y2="13" />
+                <line x1="12" y1="17" x2="12.01" y2="17" />
+              </svg>
+              Zona Berbahaya
+            </h3>
+            <p class="text-sm text-red-600 mb-4 leading-relaxed">
+              Menghapus data akan menghilangkan
+              <b>semua riwayat survei</b> secara permanen. Lakukan ini hanya
+              saat ingin memulai periode survei baru (Misal: Pergantian Tahun
+              Ajaran).
+            </p>
+            <button
+              onclick="resetData()"
+              class="w-full py-2.5 bg-red-600 hover:bg-red-700 text-white rounded-lg text-sm font-bold shadow-sm transition-colors">
+              Hapus Seluruh Data SKM
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      // Keamanan: Cek sesi login
+      if (localStorage.getItem("skm_admin_auth") !== "true") {
+        window.location.href = "admin-login.html";
+      }
+
+      // Nama Unsur Standar SKM
+      const UNSUR = [
+        "Persyaratan Layanan",
+        "Sistem, Mekanisme, dan Prosedur",
+        "Waktu Penyelesaian",
+        "Biaya / Tarif Layanan",
+        "Produk Spesifikasi Jenis Pelayanan",
+        "Kompetensi Pelaksana",
+        "Perilaku Pelaksana",
+        "Penanganan Pengaduan, Saran & Masukan",
+        "Sarana dan Prasarana",
+      ];
+
+      function initReportData() {
+        // Tulis Tanggal Cetak Otomatis
+        const dateOptions = {
+          weekday: "long",
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+        };
+        document.getElementById("printDate").textContent =
+          new Date().toLocaleDateString("id-ID", dateOptions) + " WIB";
+
+        // 1. Ambil data asli dari localStorage
+        const responses = JSON.parse(
+          localStorage.getItem("skm_responses") || "[]"
+        );
+        const n = responses.length;
+
+        // Tampilkan Total Responden
+        document.getElementById("repTotal").textContent = n;
+
+        // Jika belum ada data
+        if (n === 0) {
+          document.getElementById("repUnsurTable").innerHTML =
+            '<tr><td colspan="4" class="text-center p-6 text-slate-500 italic">Belum ada data survei yang masuk.</td></tr>';
+          document.getElementById("noSaranMsg").classList.remove("hidden");
+          return;
+        }
+
+        // Kalkulasi Data
+        let totals = new Array(9).fill(0);
+        let listSaran = [];
+
+        responses.forEach((r) => {
+          // Hitung Total Nilai Per Unsur
+          if (r.answers) {
+            r.answers.forEach((ans, i) => (totals[i] += parseInt(ans.v || 0)));
+          }
+          // Ambil saran yang diisi (Abaikan jika kosong atau terlalu pendek)
+          if (r.saran && r.saran.trim().length > 3) {
+            let tgl = new Date(r.timestamp).toLocaleDateString("id-ID");
+            listSaran.push({
+              nama: r.responden?.nama || "Anonim",
+              teks: r.saran,
+              tanggal: tgl,
+            });
+          }
+        });
+
+        // Hitung NRR
+        const nrr = totals.map((t) => t / n);
+        const totalNRR = nrr.reduce((a, b) => a + b * 0.111, 0);
+        const ikm = totalNRR * 25;
+
+        // Tentukan Grade & Mutu
+        let mutu = "D",
+          kinerja = "TIDAK BAIK";
+        if (ikm >= 88.31) {
+          mutu = "A";
+          kinerja = "SANGAT BAIK";
+        } else if (ikm >= 76.61) {
+          mutu = "B";
+          kinerja = "BAIK";
+        } else if (ikm >= 65.0) {
+          mutu = "C";
+          kinerja = "KURANG BAIK";
+        }
+
+        // Update Text Utama
+        document.getElementById("repIkm").textContent = ikm.toFixed(2);
+        document.getElementById("repMutu").textContent = mutu;
+        document.getElementById("repKinerja").textContent = kinerja;
+
+        // Render Tabel NRR
+        let tableHTML = "";
+        nrr.forEach((val, i) => {
+          // Grade per unsur (Max = 4.00)
+          let uMutu =
+            val >= 3.53 ? "A" : val >= 3.06 ? "B" : val >= 2.6 ? "C" : "D";
+
+          tableHTML += `
+        <tr class="border-b border-slate-100 last:border-0 hover:bg-slate-50 transition-colors">
+          <td class="p-3 text-center text-slate-500 font-mono text-xs">${
+            i + 1
+          }</td>
+          <td class="p-3 text-slate-700 font-medium">U${i + 1} - ${
+            UNSUR[i]
+          }</td>
+          <td class="p-3 text-center font-mono font-bold text-navy-600">${val.toFixed(
+            2
+          )}</td>
+          <td class="p-3 text-center">
+            <span class="inline-block px-2 py-1 rounded bg-slate-100 text-slate-700 text-xs font-bold border border-slate-200">${uMutu}</span>
+          </td>
+        </tr>
+      `;
+        });
+        document.getElementById("repUnsurTable").innerHTML = tableHTML;
+
+        // Render Kotak Saran
+        if (listSaran.length > 0) {
+          document.getElementById("noSaranMsg").classList.add("hidden");
+          document.getElementById("repSaranList").innerHTML = listSaran
+            .map(
+              (s) => `
+        <div class="bg-slate-50 p-4 rounded-xl border border-slate-100 relative">
+          <div class="flex justify-between items-start mb-2">
+            <div class="text-sm font-bold text-slate-800">${s.nama}</div>
+            <div class="text-xs text-slate-400 font-mono">${s.tanggal}</div>
+          </div>
+          <p class="text-sm text-slate-600 italic">"${s.teks}"</p>
+        </div>
+      `
+            )
+            .join("");
+        } else {
+          document.getElementById("noSaranMsg").classList.remove("hidden");
+        }
+      }
+
+      // Fitur Hapus Seluruh Data
+      function resetData() {
+        // Peringatan Pertama
+        const confirm1 = confirm(
+          "PERHATIAN!\n\nApakah Anda benar-benar yakin ingin menghapus seluruh data rekam jejak survei? Data yang terhapus tidak dapat dikembalikan."
+        );
+        if (confirm1) {
+          // Peringatan Kedua (Harus Mengetik)
+          const confirm2 = prompt(
+            "Untuk melanjutkan penghapusan, ketik kata 'HAPUS' (tanpa tanda kutip) di bawah ini:"
+          );
+          if (confirm2 === "HAPUS") {
+            localStorage.removeItem("skm_responses");
+            alert("Semua data survei berhasil dibersihkan!");
+            window.location.reload(); // Segarkan halaman agar tabel kosong
+          } else {
+            alert("Penghapusan dibatalkan. Kata yang Anda ketik tidak cocok.");
+          }
+        }
+      }
+
+      // Fungsi Logout
+      function logout() {
+        if (confirm("Yakin ingin keluar dari panel admin?")) {
+          localStorage.removeItem("skm_admin_auth");
+          window.location.href = "admin-login.html";
+        }
+      }
+
+      // Fitur Tema Gelap / Terang
+      function toggleTheme() {
+        const html = document.documentElement;
+        const isDark = html.getAttribute("data-theme") === "dark";
+        html.setAttribute("data-theme", isDark ? "light" : "dark");
+        document.getElementById("sunBtn").classList.toggle("hidden", !isDark);
+        document.getElementById("moonBtn").classList.toggle("hidden", isDark);
+        localStorage.setItem("theme", isDark ? "light" : "dark");
+      }
+
+      // Jalankan inisialisasi tema & data saat halaman terbuka
+      window.addEventListener("load", () => {
+        const savedTheme = localStorage.getItem("theme") || "light";
+        document.documentElement.setAttribute("data-theme", savedTheme);
+        if (savedTheme === "dark") {
+          document.getElementById("sunBtn").classList.add("hidden");
+          document.getElementById("moonBtn").classList.remove("hidden");
+        }
+        initReportData();
+      });
+    </script>
+  </body>
+</html>

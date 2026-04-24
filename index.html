@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SKM — SLB Negeri Badegan Ponorogo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: ["class", '[data-theme="dark"]'],
+        theme: {
+          extend: {
+            colors: {
+              navy: {
+                50: "#EEF4FB",
+                100: "#D5E8F5",
+                200: "#AACFE9",
+                300: "#7BB8DC",
+                400: "#4EA0CF",
+                500: "#2471A3",
+                600: "#1B4F72",
+                700: "#154360",
+                800: "#0F2F44",
+                900: "#071B29",
+              },
+              amber: {
+                400: "#F5B041",
+                500: "#F18F01",
+                600: "#D4800A",
+                700: "#A8620B",
+              },
+              sky: { 400: "#7EC8E3", 500: "#2E86AB", 600: "#1A6C8C" },
+            },
+            fontFamily: {
+              display: ['"Playfair Display"', "Georgia", "serif"],
+              body: ['"Plus Jakarta Sans"', "system-ui", "sans-serif"],
+              mono: ['"JetBrains Mono"', "monospace"],
+            },
+            animation: {
+              "fade-up": "fadeUp 0.6s ease forwards",
+              float: "float 6s ease-in-out infinite",
+              "pulse-slow": "pulse 4s cubic-bezier(0.4,0,0.6,1) infinite",
+            },
+            keyframes: {
+              fadeUp: {
+                "0%": { opacity: 0, transform: "translateY(20px)" },
+                "100%": { opacity: 1, transform: "translateY(0)" },
+              },
+              float: {
+                "0%,100%": { transform: "translateY(0px)" },
+                "50%": { transform: "translateY(-12px)" },
+              },
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap"
+      rel="stylesheet" />
+    <style>
+      :root {
+        --primary: #1b4f72;
+      }
+      [data-theme="dark"] body {
+        background: #0f172a;
+        color: #f1f5f9;
+      }
+      [data-theme="dark"] .card-surface {
+        background: #1e293b !important;
+        border-color: #2d3f55 !important;
+      }
+      [data-theme="dark"] .nav-bg {
+        background: rgba(15, 23, 42, 0.95) !important;
+        border-color: #2d3f55 !important;
+      }
+      [data-theme="dark"] .text-slate-600 {
+        color: #94a3b8 !important;
+      }
+      [data-theme="dark"] .text-slate-700 {
+        color: #cbd5e1 !important;
+      }
+      [data-theme="dark"] .bg-white {
+        background: #1e293b !important;
+      }
+      [data-theme="dark"] .bg-slate-50 {
+        background: #0f172a !important;
+      }
+      [data-theme="dark"] .text-slate-800 {
+        color: #f1f5f9 !important;
+      }
+      [data-theme="dark"] .text-slate-500 {
+        color: #94a3b8 !important;
+      }
+      [data-theme="dark"] .hero-bg {
+        background: linear-gradient(
+          135deg,
+          #0f2f44 0%,
+          #0f172a 50%,
+          #1a3a5c 100%
+        ) !important;
+      }
+      [data-theme="dark"] .stat-card,
+      [data-theme="dark"] .step-card {
+        background: rgba(30, 41, 59, 0.8) !important;
+        border-color: #2d3f55 !important;
+      }
+
+      * {
+        scroll-behavior: smooth;
+        transition: background-color 0.3s ease, color 0.3s ease,
+          border-color 0.3s ease;
+      }
+      .font-display {
+        font-family: "Playfair Display", Georgia, serif;
+      }
+      .font-body {
+        font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+      }
+      .font-mono {
+        font-family: "JetBrains Mono", monospace;
+      }
+
+      .hero-bg {
+        background: linear-gradient(
+          135deg,
+          #0d3b5e 0%,
+          #1b4f72 40%,
+          #154360 70%,
+          #0d2e47 100%
+        );
+        position: relative;
+        overflow: hidden;
+      }
+      .hero-bg::after {
+        content: "";
+        position: absolute;
+        width: 600px;
+        height: 600px;
+        background: radial-gradient(
+          circle,
+          rgba(241, 143, 1, 0.15) 0%,
+          transparent 70%
+        );
+        top: -100px;
+        right: -100px;
+        border-radius: 50%;
+        pointer-events: none;
+      }
+      .glass-card {
+        backdrop-filter: blur(12px);
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #f18f01, #f5b041);
+        color: #fff;
+        font-weight: 700;
+        padding: 14px 36px;
+        border-radius: 50px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        box-shadow: 0 4px 20px rgba(241, 143, 1, 0.4);
+        text-decoration: none;
+        transition: transform 0.3s;
+      }
+      .btn-primary:hover {
+        transform: translateY(-2px);
+      }
+      .btn-outline {
+        background: transparent;
+        color: #fff;
+        font-weight: 600;
+        padding: 13px 32px;
+        border-radius: 50px;
+        border: 2px solid rgba(255, 255, 255, 0.4);
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        text-decoration: none;
+        transition: background 0.3s;
+      }
+      .btn-outline:hover {
+        background: rgba(255, 255, 255, 0.12);
+      }
+
+      .stat-card {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 16px;
+        padding: 24px;
+        text-align: center;
+        transition: transform 0.3s;
+      }
+      .stat-card:hover {
+        transform: translateY(-4px);
+      }
+      .step-card {
+        background: #fff;
+        border: 1px solid #e2eaf4;
+        border-radius: 16px;
+        padding: 28px;
+        transition: transform 0.3s;
+        position: relative;
+      }
+      .step-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 20px 40px rgba(27, 79, 114, 0.12);
+      }
+
+      .opacity-0 {
+        opacity: 0;
+      }
+    </style>
+  </head>
+  <body class="font-body bg-slate-50 min-h-screen">
+    <nav
+      class="nav-bg fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-[70px]">
+          <div class="flex items-center gap-3">
+            <div
+              class="w-10 h-10 rounded-xl bg-gradient-to-br from-navy-600 to-navy-800 flex items-center justify-center shadow-md">
+              <svg
+                width="22"
+                height="22"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="white"
+                stroke-width="2.2">
+                <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+                <path d="M6 12v5c3 3 9 3 12 0v-5" />
+              </svg>
+            </div>
+            <div>
+              <div class="font-display font-bold text-navy-700 text-sm">
+                SLB Negeri Badegan
+              </div>
+              <div class="text-xs text-slate-500 font-medium">
+                Ponorogo — SKM
+              </div>
+            </div>
+          </div>
+          <div class="hidden md:flex items-center gap-6">
+            <a href="#beranda" class="text-sm font-semibold text-navy-600"
+              >Beranda</a
+            >
+            <a
+              href="#tentang"
+              class="text-sm font-semibold text-slate-600 hover:text-navy-600"
+              >Tentang SKM</a
+            >
+            <a
+              href="#hasil"
+              class="text-sm font-semibold text-slate-600 hover:text-navy-600"
+              >Hasil Survei</a
+            >
+            <a href="/pages/survey.html" class="btn-primary py-2 px-5 text-sm"
+              ><svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5">
+                <path
+                  d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                <path
+                  d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" /></svg
+              >Isi Survei</a
+            >
+            <a
+              href="/pages/admin-login.html"
+              class="text-sm font-semibold text-slate-500 hover:text-navy-600"
+              >Admin</a
+            >
+          </div>
+          <div class="flex items-center gap-3">
+            <button
+              onclick="toggleTheme()"
+              class="w-9 h-9 rounded-full bg-slate-100 flex items-center justify-center text-slate-600">
+              <svg
+                id="sunIcon"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2">
+                <circle cx="12" cy="12" r="5" />
+                <path
+                  d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+              </svg>
+              <svg
+                id="moonIcon"
+                class="hidden"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <section
+      id="beranda"
+      class="hero-bg min-h-screen flex items-center pt-[70px]">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 w-full">
+        <div class="grid lg:grid-cols-2 gap-16 items-center">
+          <div class="relative z-10">
+            <div
+              class="inline-flex items-center gap-2 bg-white/10 backdrop-blur rounded-full px-4 py-2 mb-6 text-white text-xs font-bold">
+              <div
+                class="w-2 h-2 bg-amber-400 rounded-full animate-pulse"></div>
+              SURVEI KEPUASAN MASYARAKAT 2024
+            </div>
+            <h1
+              class="font-display text-5xl lg:text-6xl font-bold text-white leading-tight mb-6">
+              Suara Anda <br /><span class="text-amber-400">Membangun</span
+              ><br />Layanan Kami
+            </h1>
+            <p class="text-white/75 text-lg leading-relaxed mb-8 max-w-xl">
+              SLB Negeri Badegan Ponorogo berkomitmen memberikan pelayanan
+              pendidikan terbaik bagi peserta didik berkebutuhan khusus. Bantu
+              kami meningkatkan kualitas melalui survei kepuasan ini.
+            </p>
+
+            <div class="grid grid-cols-3 gap-4 mb-10">
+              <div class="stat-card">
+                <div
+                  class="font-mono text-3xl font-bold text-amber-400 mb-1"
+                  id="counterResp">
+                  0
+                </div>
+                <div class="text-white/70 text-xs font-medium">Responden</div>
+              </div>
+              <div class="stat-card">
+                <div
+                  class="font-mono text-3xl font-bold text-amber-400 mb-1"
+                  id="counterIKM">
+                  0
+                </div>
+                <div class="text-white/70 text-xs font-medium">Nilai IKM</div>
+              </div>
+              <div class="stat-card">
+                <div
+                  class="font-mono text-3xl font-bold text-amber-400 mb-1"
+                  id="counterPerik">
+                  9
+                </div>
+                <div class="text-white/70 text-xs font-medium">Unsur SKM</div>
+              </div>
+            </div>
+
+            <div class="flex gap-4">
+              <a href="/pages/survey.html" class="btn-primary"
+                >Mulai Survei Sekarang</a
+              >
+              <a href="#hasil" class="btn-outline">Lihat Hasil SKM</a>
+            </div>
+          </div>
+
+          <div class="relative hidden lg:block">
+            <div class="glass-card rounded-3xl p-8 animate-float">
+              <div class="flex justify-between items-center mb-6">
+                <div>
+                  <div class="text-white/60 text-xs font-bold uppercase">
+                    Indeks Kepuasan Terkini
+                  </div>
+                  <div
+                    class="font-display text-5xl font-bold text-white display-ikm">
+                    0.00
+                  </div>
+                  <div
+                    class="text-amber-400 text-sm font-bold mt-1 display-grade">
+                    Memuat Data...
+                  </div>
+                </div>
+              </div>
+
+              <div class="space-y-3 mt-8" id="heroUnsurBars"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="tentang" class="py-24 bg-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+          <h2 class="font-display text-4xl font-bold text-slate-800 mb-4">
+            Mengapa SKM Penting?
+          </h2>
+          <p class="text-slate-500 max-w-2xl mx-auto">
+            Survei Kepuasan Masyarakat (SKM) merupakan kewajiban penyelenggara
+            pelayanan publik sesuai
+            <strong>PermenPANRB No. 14 Tahun 2017</strong>.
+          </p>
+        </div>
+
+        <div
+          class="bg-gradient-to-br from-navy-600 to-navy-800 rounded-3xl p-8 lg:p-10 mt-16">
+          <div class="text-center mb-8">
+            <h3 class="font-display text-2xl font-bold text-white mb-2">
+              9 Unsur Pelayanan SKM
+            </h3>
+          </div>
+          <div
+            class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-9 gap-3 text-center">
+            <div class="glass-card rounded-xl p-3">
+              <div class="text-2xl mb-1">📋</div>
+              <div class="text-amber-400 text-xs font-bold">U1</div>
+              <div class="text-white/80 text-xs">Persyaratan</div>
+            </div>
+            <div class="glass-card rounded-xl p-3">
+              <div class="text-2xl mb-1">🔄</div>
+              <div class="text-amber-400 text-xs font-bold">U2</div>
+              <div class="text-white/80 text-xs">Prosedur</div>
+            </div>
+            <div class="glass-card rounded-xl p-3">
+              <div class="text-2xl mb-1">⏱️</div>
+              <div class="text-amber-400 text-xs font-bold">U3</div>
+              <div class="text-white/80 text-xs">Waktu</div>
+            </div>
+            <div class="glass-card rounded-xl p-3">
+              <div class="text-2xl mb-1">💰</div>
+              <div class="text-amber-400 text-xs font-bold">U4</div>
+              <div class="text-white/80 text-xs">Biaya</div>
+            </div>
+            <div class="glass-card rounded-xl p-3">
+              <div class="text-2xl mb-1">📦</div>
+              <div class="text-amber-400 text-xs font-bold">U5</div>
+              <div class="text-white/80 text-xs">Produk</div>
+            </div>
+            <div class="glass-card rounded-xl p-3">
+              <div class="text-2xl mb-1">🎓</div>
+              <div class="text-amber-400 text-xs font-bold">U6</div>
+              <div class="text-white/80 text-xs">Kompetensi</div>
+            </div>
+            <div class="glass-card rounded-xl p-3">
+              <div class="text-2xl mb-1">🤝</div>
+              <div class="text-amber-400 text-xs font-bold">U7</div>
+              <div class="text-white/80 text-xs">Perilaku</div>
+            </div>
+            <div class="glass-card rounded-xl p-3">
+              <div class="text-2xl mb-1">📬</div>
+              <div class="text-amber-400 text-xs font-bold">U8</div>
+              <div class="text-white/80 text-xs">Pengaduan</div>
+            </div>
+            <div class="glass-card rounded-xl p-3">
+              <div class="text-2xl mb-1">🏫</div>
+              <div class="text-amber-400 text-xs font-bold">U9</div>
+              <div class="text-white/80 text-xs">Sarana</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-24 bg-slate-50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+          <h2 class="font-display text-4xl font-bold text-slate-800">
+            Cara Mengisi Survei
+          </h2>
+        </div>
+        <div class="grid md:grid-cols-4 gap-6">
+          <div class="step-card">
+            <div class="text-3xl mb-4">🔗</div>
+            <h3 class="font-bold text-slate-800 mb-2">Akses Survei</h3>
+            <p class="text-slate-500 text-sm">
+              Klik tombol Mulai Survei di website ini.
+            </p>
+          </div>
+          <div class="step-card">
+            <div class="text-3xl mb-4">👤</div>
+            <h3 class="font-bold text-slate-800 mb-2">Data Diri</h3>
+            <p class="text-slate-500 text-sm">
+              Lengkapi identitas sebagai responden (Anonim).
+            </p>
+          </div>
+          <div class="step-card">
+            <div class="text-3xl mb-4">✍️</div>
+            <h3 class="font-bold text-slate-800 mb-2">Jawab Pertanyaan</h3>
+            <p class="text-slate-500 text-sm">
+              Beri nilai 1 sampai 4 pada 9 Unsur layanan.
+            </p>
+          </div>
+          <div class="step-card">
+            <div class="text-3xl mb-4">✅</div>
+            <h3 class="font-bold text-slate-800 mb-2">Selesai</h3>
+            <p class="text-slate-500 text-sm">
+              Kirim survei dan hasilnya langsung terekap.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="hasil" class="py-24 bg-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+          <h2 class="font-display text-4xl font-bold text-slate-800 mb-4">
+            Hasil Survei Publik
+          </h2>
+          <p class="text-slate-500 max-w-2xl mx-auto">
+            Dipublikasikan secara terbuka sesuai kewajiban transparansi publik.
+            Data di bawah ditarik langsung dari respon warga.
+          </p>
+        </div>
+
+        <div class="grid lg:grid-cols-3 gap-8 mb-12">
+          <div class="lg:col-span-1">
+            <div
+              class="bg-gradient-to-br from-navy-600 to-navy-800 rounded-3xl p-8 text-center text-white h-full flex flex-col justify-center">
+              <div class="text-white/60 text-sm font-bold uppercase mb-3">
+                Nilai Akhir IKM
+              </div>
+              <div class="font-display text-7xl font-bold mb-2 display-ikm">
+                0.00
+              </div>
+              <div
+                class="bg-amber-500/20 text-amber-400 font-bold rounded-full px-4 py-2 mx-auto mb-4 display-grade">
+                Belum Ada Data
+              </div>
+              <div class="text-white/60 text-sm">
+                <span class="display-resp">0</span> Responden
+              </div>
+            </div>
+          </div>
+
+          <div class="lg:col-span-2 bg-slate-50 rounded-3xl p-8">
+            <h3 class="font-bold text-slate-800 mb-6">
+              Skor Rata-Rata Per Unsur (NRR)
+            </h3>
+            <div class="space-y-4" id="publicUnsurBars"></div>
+          </div>
+        </div>
+
+        <div
+          class="border border-amber-200 bg-amber-50 rounded-2xl p-6 hidden"
+          id="tindakLanjutBox">
+          <h4 class="font-bold text-amber-800 mb-2">Tindak Lanjut Evaluasi</h4>
+          <p class="text-amber-700 text-sm" id="tindakLanjutText"></p>
+        </div>
+      </div>
+    </section>
+
+    <footer class="bg-navy-800 text-white py-12">
+      <div class="max-w-7xl mx-auto text-center text-white/50 text-sm">
+        © 2024 SLB Negeri Badegan Ponorogo — Sistem SKM
+      </div>
+    </footer>
+
+    <script>
+      // Konstanta Unsur
+      const UNSUR = [
+        "Persyaratan",
+        "Prosedur",
+        "Waktu",
+        "Biaya",
+        "Produk",
+        "Kompetensi",
+        "Perilaku",
+        "Pengaduan",
+        "Sarana",
+      ];
+
+      function initDataLanding() {
+        // 1. Ambil data asli dari localStorage
+        const responses = JSON.parse(
+          localStorage.getItem("skm_responses") || "[]"
+        );
+        const n = responses.length;
+
+        let nrr = new Array(9).fill(0);
+        let ikm = 0;
+
+        if (n > 0) {
+          let totals = new Array(9).fill(0);
+          responses.forEach((r) => {
+            if (r.answers)
+              r.answers.forEach(
+                (ans, i) => (totals[i] += parseInt(ans.v || 0))
+              );
+          });
+
+          nrr = totals.map((t) => t / n);
+          const totalNRR = nrr.reduce((a, b) => a + b * 0.111, 0);
+          ikm = totalNRR * 25;
+        }
+
+        // Tentukan Grade
+        let grade = "-",
+          gradeText = "Belum ada data",
+          color = "#94A3B8";
+        if (n > 0) {
+          if (ikm >= 88.31) {
+            grade = "A";
+            gradeText = "SANGAT BAIK";
+            color = "#27AE60";
+          } else if (ikm >= 76.61) {
+            grade = "B";
+            gradeText = "BAIK";
+            color = "#2471A3";
+          } else if (ikm >= 65.0) {
+            grade = "C";
+            gradeText = "KURANG BAIK";
+            color = "#F18F01";
+          } else {
+            grade = "D";
+            gradeText = "TIDAK BAIK";
+            color = "#E74C3C";
+          }
+        }
+
+        // 2. Terapkan Animasi pada Counter Utama
+        animateCounter(document.getElementById("counterResp"), n);
+        animateCounter(document.getElementById("counterIKM"), ikm, "", 2);
+
+        // 3. Terapkan pada elemen Teks statis di halaman
+        document
+          .querySelectorAll(".display-ikm")
+          .forEach((el) => (el.textContent = ikm.toFixed(2)));
+        document
+          .querySelectorAll(".display-resp")
+          .forEach((el) => (el.textContent = n));
+        document.querySelectorAll(".display-grade").forEach((el) => {
+          el.textContent = `⭐ ${gradeText} (${grade})`;
+        });
+
+        // 4. Render Chart Bar Kustom di Hero dan Public section
+        const heroContainer = document.getElementById("heroUnsurBars");
+        const publicContainer = document.getElementById("publicUnsurBars");
+        heroContainer.innerHTML = "";
+        publicContainer.innerHTML = "";
+
+        if (n > 0) {
+          let minSkor = Math.min(...nrr);
+          let minIdx = nrr.indexOf(minSkor);
+
+          // Tampilkan Tindak Lanjut
+          document.getElementById("tindakLanjutBox").classList.remove("hidden");
+          document.getElementById(
+            "tindakLanjutText"
+          ).innerHTML = `Berdasarkan hasil saat ini, unsur <b>${
+            UNSUR[minIdx]
+          } (U${minIdx + 1})</b> mendapat nilai terendah (${minSkor.toFixed(
+            2
+          )}). Pihak SLB Negeri Badegan akan memprioritaskan perbaikan layanan pada bagian tersebut.`;
+
+          // Loop untuk Bar
+          nrr.forEach((skor, i) => {
+            let pct = (skor / 4) * 100;
+            let barColor = skor >= 3 ? "#2471A3" : "#F18F01";
+
+            // Hero Bar (Mode Gelap)
+            heroContainer.innerHTML += `
+            <div class="flex items-center gap-3 mb-2">
+              <div class="text-white/60 text-xs w-20 truncate">${UNSUR[i]}</div>
+              <div class="flex-1 h-1.5 bg-white/10 rounded-full overflow-hidden">
+                <div class="h-full bg-amber-400" style="width:${pct}%"></div>
+              </div>
+              <div class="text-white/80 text-xs font-mono font-bold">${skor.toFixed(
+                2
+              )}</div>
+            </div>`;
+
+            // Public Bar (Mode Terang)
+            publicContainer.innerHTML += `
+            <div class="mb-3">
+              <div class="flex justify-between text-sm font-bold text-slate-700 mb-1">
+                <span>U${i + 1} - ${UNSUR[i]}</span>
+                <span>${skor.toFixed(2)}</span>
+              </div>
+              <div class="h-2.5 bg-slate-200 rounded-full overflow-hidden">
+                <div class="h-full" style="width:${pct}%; background:${barColor};"></div>
+              </div>
+            </div>`;
+          });
+        } else {
+          publicContainer.innerHTML = `<div class="text-center text-slate-400 p-4">Belum ada respon untuk ditampilkan grafiknya.</div>`;
+          heroContainer.innerHTML = `<div class="text-center text-white/50 text-sm">Menunggu survei pertama...</div>`;
+        }
+      }
+
+      // Animasi Counter Angka Jalan
+      function animateCounter(el, target, suffix = "", decimals = 0) {
+        let current = 0;
+        const step = target / 40;
+        if (target === 0) {
+          el.textContent = "0";
+          return;
+        }
+
+        const timer = setInterval(() => {
+          current += step;
+          if (current >= target) {
+            current = target;
+            clearInterval(timer);
+          }
+          el.textContent =
+            decimals > 0
+              ? current.toFixed(decimals) + suffix
+              : Math.floor(current) + suffix;
+        }, 25);
+      }
+
+      // Toggle Tema Gelap/Terang
+      function toggleTheme() {
+        const html = document.documentElement;
+        const isDark = html.getAttribute("data-theme") === "dark";
+        html.setAttribute("data-theme", isDark ? "light" : "dark");
+        document.getElementById("sunIcon").classList.toggle("hidden", !isDark);
+        document.getElementById("moonIcon").classList.toggle("hidden", isDark);
+        localStorage.setItem("theme", isDark ? "light" : "dark");
+      }
+      const saved = localStorage.getItem("theme") || "light";
+      document.documentElement.setAttribute("data-theme", saved);
+      if (saved === "dark") {
+        document.getElementById("sunIcon").classList.add("hidden");
+        document.getElementById("moonIcon").classList.remove("hidden");
+      }
+
+      // Menjalankan data setelah halaman diload
+      window.addEventListener("load", initDataLanding);
+    </script>
+  </body>
+</html>

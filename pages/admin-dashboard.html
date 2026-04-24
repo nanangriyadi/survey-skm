@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard Admin — SKM SLB Negeri Badegan</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap"
+      rel="stylesheet" />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: "Plus Jakarta Sans", sans-serif;
+        background: #f5f7fa;
+        color: #1a202c;
+      }
+      .sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 260px;
+        background: #fff;
+        border-right: 1px solid #e2eaf4;
+        display: flex;
+        flex-direction: column;
+        z-index: 50;
+      }
+      .topbar {
+        position: fixed;
+        top: 0;
+        left: 260px;
+        right: 0;
+        height: 70px;
+        background: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(8px);
+        border-bottom: 1px solid #e2eaf4;
+        display: flex;
+        align-items: center;
+        padding: 0 24px;
+        z-index: 40;
+      }
+      .main-content {
+        margin-left: 260px;
+        margin-top: 70px;
+        padding: 28px;
+        min-height: calc(100vh - 70px);
+      }
+      .card {
+        background: #fff;
+        border: 1px solid #e2eaf4;
+        border-radius: 16px;
+        padding: 24px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+      }
+      .stat-card {
+        border-radius: 16px;
+        padding: 24px;
+        color: white;
+        transition: transform 0.2s;
+      }
+      .stat-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+      }
+      .nav-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 11px 16px;
+        border-radius: 10px;
+        color: #64748b;
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 2px;
+        text-decoration: none;
+      }
+      .nav-item.active {
+        background: #eef4fb;
+        color: #1b4f72;
+      }
+      .progress-bar {
+        height: 8px;
+        border-radius: 4px;
+        background: #e2eaf4;
+        overflow: hidden;
+        width: 100%;
+      }
+      .progress-fill {
+        height: 100%;
+        border-radius: 4px;
+        transition: width 1s ease;
+      }
+      .font-mono {
+        font-family: "JetBrains Mono", monospace;
+      }
+      .font-display {
+        font-family: "Playfair Display", serif;
+      }
+    </style>
+  </head>
+  <body>
+    <aside class="sidebar">
+      <div class="p-5 border-b border-slate-100">
+        <div class="flex items-center gap-3">
+          <div
+            class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
+            style="background: linear-gradient(135deg, #1b4f72, #154360)">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="white"
+              stroke-width="2">
+              <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+              <path d="M6 12v5c3 3 9 3 12 0v-5" />
+            </svg>
+          </div>
+          <div>
+            <div class="font-display text-sm font-bold text-slate-800">
+              SLB Negeri Badegan
+            </div>
+            <div class="text-xs text-slate-400 font-medium">
+              Sistem SKM Admin
+            </div>
+          </div>
+        </div>
+      </div>
+      <nav class="px-3 py-4 flex-1">
+        <div
+          class="text-xs font-bold text-slate-400 uppercase tracking-widest px-3 mb-3">
+          Menu Utama
+        </div>
+        <a href="admin-dashboard.html" class="nav-item active">Dashboard</a>
+        <a href="admin-results.html" class="nav-item">Hasil & Analisis</a>
+        <a href="admin-reports.html" class="nav-item">Laporan & Publikasi</a>
+      </nav>
+      <div class="p-4 border-t border-slate-100">
+        <button
+          onclick="logout()"
+          class="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-red-500 hover:bg-red-50 font-semibold text-sm">
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+            <polyline points="16 17 21 12 16 7" />
+            <line x1="21" y1="12" x2="9" y2="12" />
+          </svg>
+          Keluar
+        </button>
+      </div>
+    </aside>
+
+    <header class="topbar flex justify-between">
+      <div>
+        <div class="font-display font-bold text-slate-800 text-lg">
+          Dashboard SKM
+        </div>
+        <div class="text-slate-400 text-xs">
+          Real-time data survei kepuasan masyarakat
+        </div>
+      </div>
+      <div class="flex gap-3">
+        <button
+          onclick="location.reload()"
+          class="px-4 py-2 bg-slate-100 text-slate-600 text-sm font-semibold rounded-xl hover:bg-slate-200 flex items-center gap-2">
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2">
+            <polyline points="23 4 23 10 17 10" />
+            <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
+          </svg>
+          Segarkan Data
+        </button>
+      </div>
+    </header>
+
+    <main class="main-content">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-6">
+        <div
+          class="stat-card"
+          style="background: linear-gradient(135deg, #1b4f72, #2471a3)">
+          <div
+            class="text-white/70 text-xs font-bold uppercase tracking-wider mb-2">
+            Total Nilai IKM
+          </div>
+          <div class="font-mono text-4xl font-bold mb-1" id="ikmScore">
+            0.00
+          </div>
+          <div class="text-white/80 text-xs mt-2" id="kategoriTeks">
+            Menunggu data...
+          </div>
+        </div>
+
+        <div
+          class="stat-card"
+          style="background: linear-gradient(135deg, #27ae60, #2ecc71)">
+          <div
+            class="text-white/70 text-xs font-bold uppercase tracking-wider mb-2">
+            Total Responden
+          </div>
+          <div class="font-mono text-4xl font-bold mb-1" id="totalResp">0</div>
+          <div class="text-white/80 text-xs mt-2">Orang telah mengisi</div>
+        </div>
+
+        <div
+          class="stat-card"
+          style="background: linear-gradient(135deg, #f18f01, #f5b041)">
+          <div
+            class="text-white/70 text-xs font-bold uppercase tracking-wider mb-2">
+            Mutu Pelayanan
+          </div>
+          <div class="font-display text-3xl font-bold mb-1" id="kategoriMutu">
+            -
+          </div>
+          <div class="text-white/80 text-xs mt-2">
+            Berdasarkan konversi skor
+          </div>
+        </div>
+
+        <div
+          class="stat-card"
+          style="background: linear-gradient(135deg, #8e44ad, #9b59b6)">
+          <div
+            class="text-white/70 text-xs font-bold uppercase tracking-wider mb-2">
+            Unsur Terbaik
+          </div>
+          <div
+            class="font-display text-xl font-bold mb-1 truncate"
+            id="unsurTerbaik">
+            -
+          </div>
+          <div class="text-white/80 text-xs mt-2" id="skorTerbaik">
+            NRR: 0.00
+          </div>
+        </div>
+      </div>
+
+      <div class="grid lg:grid-cols-3 gap-6 mb-6">
+        <div class="lg:col-span-2 card">
+          <h3 class="font-bold text-slate-800 mb-4">
+            Skor Rata-Rata Per Unsur (NRR)
+          </h3>
+          <div style="height: 280px; position: relative">
+            <canvas id="barChart"></canvas>
+          </div>
+        </div>
+
+        <div class="card overflow-hidden">
+          <h3 class="font-bold text-slate-800 mb-4">Detail Unsur Pelayanan</h3>
+          <div
+            class="space-y-4 overflow-y-auto"
+            style="max-height: 280px"
+            id="unsurDetailList"></div>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      // 1. KEAMANAN: Cek apakah user sudah login. Jika belum, lempar ke halaman login!
+      if (localStorage.getItem("skm_admin_auth") !== "true") {
+        window.location.href = "admin-login.html";
+      }
+
+      // Konfigurasi Unsur
+      const UNSUR = [
+        "Persyaratan",
+        "Sistem, Mekanisme, Prosedur",
+        "Waktu Penyelesaian",
+        "Biaya / Tarif",
+        "Produk Spesifikasi Layanan",
+        "Kompetensi Pelaksana",
+        "Perilaku Pelaksana",
+        "Penanganan Pengaduan",
+        "Sarana dan Prasarana",
+      ];
+
+      // 2. FUNGSI LOGOUT YANG SUDAH DIPERBAIKI
+      function logout() {
+        if (confirm("Yakin ingin keluar dari panel admin?")) {
+          // Baris di bawah ini penting untuk menghapus sesi login
+          localStorage.removeItem("skm_admin_auth");
+          // Arahkan kembali ke halaman login
+          window.location.href = "admin-login.html";
+        }
+      }
+
+      function initDashboard() {
+        // Ambil Data dari LocalStorage
+        const responses = JSON.parse(
+          localStorage.getItem("skm_responses") || "[]"
+        );
+        const n = responses.length;
+
+        let totals = new Array(9).fill(0);
+        let nrr = new Array(9).fill(0);
+        let ikm = 0;
+
+        // Kalkulasi Data jika ada responden
+        if (n > 0) {
+          responses.forEach((r) => {
+            if (r.answers) {
+              r.answers.forEach((ans, i) => {
+                totals[i] += parseInt(ans.v || 0);
+              });
+            }
+          });
+
+          // Hitung NRR per unsur
+          nrr = totals.map((t) => t / n);
+
+          // Hitung IKM = (Total NRR x 0.111) x 25
+          const totalNRR = nrr.reduce((a, b) => a + b * 0.111, 0);
+          ikm = totalNRR * 25;
+        }
+
+        // Update Kartu Statistik Utama
+        document.getElementById("totalResp").textContent = n;
+        document.getElementById("ikmScore").textContent = ikm.toFixed(2);
+
+        // Tentukan Kategori Mutu
+        let mutu = "-",
+          mutuTeks = "Belum ada data";
+        if (n > 0) {
+          if (ikm >= 88.31) {
+            mutu = "A (Sangat Baik)";
+            mutuTeks = "Kinerja Sangat Memuaskan";
+          } else if (ikm >= 76.61) {
+            mutu = "B (Baik)";
+            mutuTeks = "Kinerja Memuaskan";
+          } else if (ikm >= 65.0) {
+            mutu = "C (Kurang)";
+            mutuTeks = "Perlu Peningkatan";
+          } else {
+            mutu = "D (Buruk)";
+            mutuTeks = "Segera Lakukan Evaluasi";
+          }
+        }
+        document.getElementById("kategoriMutu").textContent =
+          mutu.split(" ")[0];
+        document.getElementById("kategoriTeks").textContent = mutuTeks;
+
+        // Tentukan Unsur Terbaik
+        if (n > 0) {
+          let maxSkor = Math.max(...nrr);
+          let bestIndex = nrr.indexOf(maxSkor);
+          document.getElementById("unsurTerbaik").textContent =
+            UNSUR[bestIndex];
+          document.getElementById(
+            "skorTerbaik"
+          ).textContent = `NRR: ${maxSkor.toFixed(2)}`;
+        }
+
+        // Update List Detail Unsur
+        const listContainer = document.getElementById("unsurDetailList");
+        listContainer.innerHTML = "";
+        nrr.forEach((skor, i) => {
+          let persentase = (skor / 4) * 100; // Maksimal skor adalah 4
+          listContainer.innerHTML += `
+        <div class="mb-3">
+          <div class="flex justify-between text-xs font-semibold text-slate-700 mb-1">
+            <span>U${i + 1} - ${UNSUR[i]}</span>
+            <span class="text-navy-600">${skor.toFixed(2)}</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width:${persentase}%; background:${
+            skor >= 3 ? "#27AE60" : skor >= 2 ? "#F18F01" : "#E74C3C"
+          };"></div>
+          </div>
+        </div>
+      `;
+        });
+
+        // Update Grafik Bar Menggunakan Chart.js
+        const ctx = document.getElementById("barChart").getContext("2d");
+        new Chart(ctx, {
+          type: "bar",
+          data: {
+            labels: UNSUR.map((_, i) => `U${i + 1}`),
+            datasets: [
+              {
+                label: "Nilai Rata-Rata (NRR)",
+                data: nrr,
+                backgroundColor: "#1B4F72",
+                borderRadius: 6,
+                barPercentage: 0.6,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              y: { beginAtZero: true, max: 4, grid: { color: "#F1F5F9" } },
+              x: { grid: { display: false } },
+            },
+            plugins: {
+              legend: { display: false },
+              tooltip: {
+                callbacks: {
+                  title: (ctx) => UNSUR[ctx[0].dataIndex],
+                  label: (ctx) => ` Skor: ${ctx.raw.toFixed(2)} / 4.00`,
+                },
+              },
+            },
+          },
+        });
+      }
+
+      // Jalankan fungsi saat halaman dimuat
+      window.onload = initDashboard;
+    </script>
+  </body>
+</html>
